@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
+#include <omp.h>
+#include "inc/main.hxx"
 
 using namespace std;
 
@@ -74,8 +76,8 @@ inline size_t byteSum(const uint8_t *data, size_t N, size_t BLOCK, int MODE) {
   size_t a = 0;
   for (size_t b=0; b<N; b+=BLOCK) {
     size_t I = min(b + BLOCK, N);
-    if (MODE==1) madvise(data + b, I-b, MADV_WILLNEED | MADV_POPULATE_READ);
-    if (MODE==2) mmap   (data + b, I-b, PROT_READ, MAP_PRIVATE | MAP_POPULATE, -1, 0);
+    if (MODE==1) madvise((void*) (data + b), I-b, MADV_WILLNEED);
+    if (MODE==2) mmap   ((void*) (data + b), I-b, PROT_READ, MAP_PRIVATE | MAP_POPULATE, -1, 0);
     for (size_t i=b; i<I; ++i)
       a += data[i];
   }
@@ -96,8 +98,8 @@ inline size_t byteSumOmp(const uint8_t *data, size_t N, size_t BLOCK, int MODE) 
   #pragma omp parallel for schedule(dynamic, 1) reduction(+:a)
   for (size_t b=0; b<N; b+=BLOCK) {
     size_t I = min(b + BLOCK, N);
-    if (MODE==1) madvise(data + b, I-b, MADV_WILLNEED | MADV_POPULATE_READ);
-    if (MODE==2) mmap   (data + b, I-b, PROT_READ, MAP_PRIVATE | MAP_POPULATE, -1, 0);
+    if (MODE==1) madvise((void*) (data + b), I-b, MADV_WILLNEED);
+    if (MODE==2) mmap   ((void*) (data + b), I-b, PROT_READ, MAP_PRIVATE | MAP_POPULATE, -1, 0);
     for (size_t i=b; i<I; ++i)
       a += data[i];
   }
@@ -118,14 +120,14 @@ int main(int argc, char **argv) {
   size_t BLOCK = argc>4 ? atol(argv[4]) : 4096;  // block size
   int    MODE  = argc>5 ? atoi(argv[5]) : 0;     // 0=none, 1=madvise, 2=mmap
   omp_set_num_threads(MAX_THREADS);
-  LOG("OMP_NUM_THREADS=%d\n", MAX_THREADS);
+  printf("OMP_NUM_THREADS=%d\n", MAX_THREADS);
   auto [fd, addr, size] = mapFileToMemory(file, ADV);
-  LOG("Finding byte sum of file %s ...\n", file);
+  printf("Finding byte sum of file %s ...\n", file);
   float tr = measureDuration([&]() {
     if (PAR) byteSumOmp((uint8_t*) addr, size, BLOCK, MODE);
     else     byteSum   ((uint8_t*) addr, size, BLOCK, MODE);
   });
-  printf("{%09.1fms} %s\n", tr, PAR? "byteSumOmp" : "byteSum");
+  printf("{adv=%d, block=%zu, mode=%d} -> {%09.1fms} %s\n", ADV, BLOCK, MODE, tr, PAR? "byteSumOmp" : "byteSum");
   printf("\n");
   return 0;
 }

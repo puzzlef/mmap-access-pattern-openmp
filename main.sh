@@ -18,7 +18,7 @@ DEFINES=(""
 "-DMAX_THREADS=$MAX_THREADS"
 )
 
-# Run
+# Build and run
 g++ ${DEFINES[*]} -std=c++17 -O3 -fopenmp main.cxx
 
 perform-all() {
@@ -50,3 +50,6 @@ for par in 0 1; do
     done
   done
 done
+
+# Signal completion
+curl -X POST "https://maker.ifttt.com/trigger/puzzlef/with/key/${IFTTT_KEY}?value1=$src$1"

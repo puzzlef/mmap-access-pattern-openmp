@@ -123,11 +123,12 @@ int main(int argc, char **argv) {
   printf("OMP_NUM_THREADS=%d\n", MAX_THREADS);
   auto [fd, addr, size] = mapFileToMemory(file, ADV);
   printf("Finding byte sum of file %s ...\n", file);
+  size_t sum = 0;
   float tr = measureDuration([&]() {
-    if (PAR) byteSumOmp((uint8_t*) addr, size, BLOCK, MODE);
-    else     byteSum   ((uint8_t*) addr, size, BLOCK, MODE);
+    if (PAR) sum = byteSumOmp((uint8_t*) addr, size, BLOCK, MODE);
+    else     sum = byteSum   ((uint8_t*) addr, size, BLOCK, MODE);
   });
-  printf("{adv=%d, block=%zu, mode=%d} -> {%09.1fms} %s\n", ADV, BLOCK, MODE, tr, PAR? "byteSumOmp" : "byteSum");
+  printf("{adv=%d, block=%zu, mode=%d} -> {%09.1fms, sum=%zu} %s\n", ADV, BLOCK, MODE, tr, sum, PAR? "byteSumOmp" : "byteSum");
   printf("\n");
   return 0;
 }

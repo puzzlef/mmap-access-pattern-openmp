@@ -65,6 +65,7 @@ There is a paper called "Efficient Memory Mapped File I/O for In-Memory File Sys
 
 [![](https://img.youtube.com/vi/yqO7wVBTuLw/maxresdefault.jpg)](https://www.youtube.com/watch?v=yqO7wVBTuLw)<br>
 [![ORG](https://img.shields.io/badge/org-puzzlef-green?logo=Org)](https://puzzlef.github.io)
+[![DOI](https://zenodo.org/badge/713454173.svg)](https://zenodo.org/doi/10.5281/zenodo.10072425)
 
 
 [PIGO]: https://github.com/GT-TDAlab/PIGO

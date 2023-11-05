@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Sahu
+    given-names: Subhajit
+    orcid: https://orcid.org/0000-0001-5140-6578
+title: "puzzlef/mmap-access-pattern-openmp: Design a fast parallel memory access pattern for a memory-mapped file with mmap()"
+version: 1.2.0
+doi: 10.5281/zenodo.10072426
+date-released: 2023-11-05

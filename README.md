@@ -66,7 +66,7 @@ There is a paper called "Efficient Memory Mapped File I/O for In-Memory File Sys
 [![](https://img.youtube.com/vi/yqO7wVBTuLw/maxresdefault.jpg)](https://www.youtube.com/watch?v=yqO7wVBTuLw)<br>
 [![ORG](https://img.shields.io/badge/org-puzzlef-green?logo=Org)](https://puzzlef.github.io)
 [![DOI](https://zenodo.org/badge/713454173.svg)](https://zenodo.org/doi/10.5281/zenodo.10072425)
-
+![](https://ga-beacon.deno.dev/G-KD28SG54JQ:hbAybl6nQFOtmVxW4if3xw/github.com/puzzlef/mmap-access-pattern-openmp)
 
 [PIGO]: https://github.com/GT-TDAlab/PIGO
 [KIOXIA KCM6DRUL7T68 7.68TB NVMe SSD]: https://www.acmemicro.com/Product/17847/Kioxia-KCD6XLUL7T68---7-68TB-SSD-NVMe-2-5-inch-15mm-CD6-R-Series-SIE-PCIe-4-0-6200-MB-sec-Read-BiCS-FLASH-TLC-1-DWPD
